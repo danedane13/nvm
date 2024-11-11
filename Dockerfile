@@ -6,7 +6,7 @@
 # Please note that it'll use about 1.2 GB disk space and about 15 minutes to
 # build this image, it depends on your hardware.
 
-FROM ubuntu:18.04
+FROM ubuntu:22.04
 LABEL maintainer="Peter Dave Hello <hsu@peterdavehello.org>"
 LABEL name="nvm-dev-env"
 LABEL version="latest"
@@ -23,9 +23,6 @@ ENV SHELLCHECK_VERSION=0.7.0
 # Pick a Ubuntu apt mirror site for better speed
 # ref: https://launchpad.net/ubuntu/+archivemirrors
 ENV UBUNTU_APT_SITE ubuntu.cs.utah.edu
-
-# Disable src package source
-RUN sed -i 's/^deb-src\ /\#deb-src\ /g' /etc/apt/sources.list
 
 # Replace origin apt package site with the mirror site
 RUN sed -E -i "s/([a-z]+.)?archive.ubuntu.com/$UBUNTU_APT_SITE/g" /etc/apt/sources.list
@@ -56,8 +53,8 @@ RUN apt update         && \
         jq                    \
         zsh                   \
         ksh                   \
-        gcc-4.8               \
-        g++-4.8               \
+        gcc                   \
+        g++                   \
         xz-utils              \
         build-essential       \
         bash-completion       && \
@@ -86,7 +83,7 @@ RUN useradd -ms /bin/bash nvm
 
 # Copy and set permission for nvm directory
 COPY . /home/nvm/.nvm/
-RUN chown nvm:nvm -R "home/nvm/.nvm"
+RUN chown nvm:nvm -R "/home/nvm/.nvm"
 
 # Set sudoer for "nvm"
 RUN echo 'nvm ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers

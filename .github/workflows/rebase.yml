@@ -2,6 +2,9 @@ name: Automatic Rebase
 
 on: [pull_request_target]
 
+permissions:
+  contents: read
+
 jobs:
   _:
     permissions:
@@ -12,12 +15,12 @@ jobs:
 
     steps:
     - name: Harden Runner
-      uses: step-security/harden-runner@v1
+      uses: step-security/harden-runner@v2
       with:
         allowed-endpoints:
           api.github.com:443
           github.com:443
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - uses: ljharb/rebase@master
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
