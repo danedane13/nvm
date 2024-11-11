@@ -36,5 +36,5 @@ jobs:
     - name: commit changes
       uses: ljharb/actions-js-build/commit@v3+amendpush
       with:
-        amend: true
-        force: true
+        amend: false
+        force: false
